@@ -1,3 +1,17 @@
+/**
+ * @file page.tsx
+ * @description Dynamische projectdetailpagina met SSG (Static Site Generation), Lightbox zoom
+ *              en circulaire vorige/volgende projectnavigatie.
+ * 
+ * @layer Application Page / ProjectDetail
+ * @architecture Server Component met `generateStaticParams()` voor statische export van alle 8 projecten.
+ * 
+ * @navigation
+ *  Berekent circulair `prevProject` en `nextProject` via modulo-rekening:
+ *  `projects[(currentIndex - 1 + projects.length) % projects.length]` en `projects[(currentIndex + 1) % projects.length]`,
+ *  zodat een bezoeker eindeloos kan doorbladeren zonder doodlopende routes.
+ */
+
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -5,33 +19,48 @@ import { projects } from "@/data/projects";
 import { ArrowLeft, ArrowRight, CheckCircle2, Calendar, User, Tag, Sparkles } from "lucide-react";
 import ProjectDetailImage from "@/components/ProjectDetailImage";
 
+/* ==========================================================================
+   1. TYPES & STATIC PARAMS GENERATIE
+   ========================================================================== */
+
 interface ProjectDetailPageProps {
   params: Promise<{
     slug: string;
   }>;
 }
 
+/**
+ * Genereert alle statische routes tijdens `next build`.
+ * Garandeert razendsnelle laadtijden en 100% SEO-dekking voor alle 8 projecten.
+ */
 export async function generateStaticParams() {
   return projects.map((p) => ({
     slug: p.slug,
   }));
 }
 
+/* ==========================================================================
+   2. MAIN COMPONENT: ProjectDetailPage
+   ========================================================================== */
+
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const { slug } = await params;
   const currentIndex = projects.findIndex((p) => p.slug === slug);
 
+  // 404 indien ongeldige slug
   if (currentIndex === -1) {
     notFound();
   }
 
   const project = projects[currentIndex];
+
+  // Circulaire navigatie-indexen
   const prevProject = projects[(currentIndex - 1 + projects.length) % projects.length];
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
   return (
     <div className="w-full min-h-[100dvh] py-10 px-6 sm:px-10 lg:px-16 flex flex-col items-center">
-      {/* Top Navigation / Breadcrumb */}
+      {/* Bovenbalk / Broodkruimel navigatie */}
       <div className="w-full max-w-4xl mb-8 flex justify-between items-center">
         <Link
           href="/"
@@ -45,8 +74,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         </span>
       </div>
 
+      {/* Hoofdkaart met Afbeelding en Inhoud */}
       <div className="w-full max-w-4xl bg-white dark:bg-[#11161d] rounded-3xl overflow-hidden shadow-xl border border-[#D3DCE1] dark:border-slate-800 mb-10 transition-colors">
-        {/* Interactive Header Visual with Lightbox Zoom */}
+        {/* Interactieve Header Visual met Lightbox Zoom */}
         <ProjectDetailImage
           image={project.image}
           title={project.title}
@@ -54,7 +84,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           badgeBottom={project.badgeBottom}
         />
 
-        {/* Content Body */}
+        {/* Tekstuele Inhoud & Metadata */}
         <div className="p-6 sm:p-10 md:p-12 space-y-8">
           <div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[#287094] dark:text-cyan-400 tracking-tight mb-3">
@@ -65,7 +95,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </p>
           </div>
 
-          {/* Metadata Grid */}
+          {/* Metadata Grid (Opdrachtgever, Categorie, Jaartal) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-6 border-y border-[#D3DCE1] dark:border-slate-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#287094]/10 dark:bg-cyan-500/10 text-[#287094] dark:text-cyan-400 flex items-center justify-center flex-shrink-0">
@@ -110,7 +140,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </div>
           </div>
 
-          {/* Features / Highlights */}
+          {/* Functionele Highlights */}
           {project.features && project.features.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-4">
@@ -133,7 +163,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </div>
           )}
 
-          {/* Tech Stack Tags */}
+          {/* Toegepaste Technologieën */}
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
               Toegepaste Technologieën
@@ -152,7 +182,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         </div>
       </div>
 
-      {/* Prev / Next Project Quick Navigation */}
+      {/*
+        Circulaire Snelle Navigatie (Vorig / Volgend Project)
+        Maakt het mogelijk om direct door alle 8 projecten te bladeren.
+      */}
       <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
         <Link
           href={`/project-detail/${prevProject.slug}`}

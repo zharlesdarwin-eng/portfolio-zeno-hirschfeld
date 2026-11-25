@@ -1,3 +1,13 @@
+/**
+ * @file SidebarNav.tsx
+ * @description Hoofdnavigatiecomponent die zowel de persistente desktop-zijbalk als de
+ *              mobiele header en het fullscreen uitklapmenu verzorgt.
+ * 
+ * @layer Components / Navigation
+ * @architecture Client Component ("use client") vanwege active route matching via `usePathname()`,
+ *              interactieve mobiele menustate, en 1-klik klembord-notificaties via `useToast()`.
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -8,6 +18,13 @@ import { Menu, X, ChevronRight, Mail } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useToast } from "@/components/Toast";
 
+/* ==========================================================================
+   1. INLINE HELPER COMPONENTS
+   ========================================================================== */
+
+/**
+ * SVG-icoon voor LinkedIn (aangezien lucide-react geen native Linkedin-export heeft).
+ */
 function LinkedinIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -22,11 +39,19 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
+/* ==========================================================================
+   2. MAIN COMPONENT: SidebarNav
+   ========================================================================== */
+
 export default function SidebarNav() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { showToast } = useToast();
 
+  /**
+   * Snelle e-mailkopieeractie voor de footericonen.
+   * Voorkomt dat bezoekers onbedoeld een zware e-mailclient opstarten.
+   */
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.preventDefault();
     navigator.clipboard.writeText("z.g.s.hirschfeld@gmail.com").then(
@@ -34,17 +59,24 @@ export default function SidebarNav() {
         showToast("E-mailadres gekopieerd naar klembord!", "success");
       },
       () => {
+        // Fallback: open mailto link indien klemborden niet toegestaan zijn
         window.location.href = "mailto:z.g.s.hirschfeld@gmail.com";
       }
     );
   };
 
+  /**
+   * Menustructuur van de website
+   */
   const navItems = [
     { label: "Portfolio", href: "/" },
     { label: "Over Mij", href: "/over-mij" },
     { label: "Contact", href: "/contact" },
   ];
 
+  /**
+   * Bepaalt of een menuknop actief is op basis van het huidige URL-pad.
+   */
   const isActive = (href: string) => {
     if (href === "/" && pathname === "/") return true;
     if (href !== "/" && pathname.startsWith(href)) return true;
@@ -53,17 +85,21 @@ export default function SidebarNav() {
 
   return (
     <>
-      {/* DESKTOP SIDEBAR (>= 850px) */}
+      {/* ====================================================================
+          DESKTOP SIDEBAR (>= 850px / md)
+          Vaste linker navigatiebalk over de volledige schermhoogte (100dvh).
+          ==================================================================== */}
       <aside
         className="hidden md:flex fixed top-0 left-0 h-[100dvh] w-[20vw] min-w-[220px] max-w-[300px] flex-col justify-between items-center bg-white dark:bg-[#11161d] border-r border-[#D3DCE1] dark:border-slate-800/80 z-40 px-4 py-8 shadow-sm transition-colors duration-300"
         aria-label="Hoofdnavigatie"
       >
-        {/* Top Section with ThemeToggle, Logo & Availability Status */}
+        {/* Bovenste sectie: Dark/Light switch, Logo en Beschikbaarheidsstatus */}
         <div className="w-full flex flex-col items-center">
           <div className="w-full flex justify-end px-2 mb-2">
             <ThemeToggle />
           </div>
 
+          {/* Logo met automatische donkere-modus inversie */}
           <Link
             href="/"
             className="group flex justify-center items-center transition-transform duration-300 hover:scale-105"
@@ -80,7 +116,7 @@ export default function SidebarNav() {
             </div>
           </Link>
 
-          {/* Availability Status Badge with animated ping & steady dot */}
+          {/* Beschikbaarheidstatus met pulserende radar-indicator */}
           <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -90,7 +126,7 @@ export default function SidebarNav() {
           </div>
         </div>
 
-        {/* Menu Items */}
+        {/* Midden: Hoofdmenu links */}
         <nav className="w-full flex-1 flex flex-col justify-center items-center my-4">
           <ul className="w-full space-y-3">
             {navItems.map((item) => {
@@ -113,7 +149,7 @@ export default function SidebarNav() {
           </ul>
         </nav>
 
-        {/* Footer with Socials and Quick Copy */}
+        {/* Onderste sectie: Socials, Quick-Copy e-mail en Copyright */}
         <div className="w-full pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center">
           <div className="flex justify-center items-center gap-4 mb-4">
             <a
@@ -141,7 +177,10 @@ export default function SidebarNav() {
         </div>
       </aside>
 
-      {/* MOBILE TOP BAR (< 850px) */}
+      {/* ====================================================================
+          MOBIELE TOP BAR (< 850px / md)
+          Kompakte, wazige header met logo, beschikbaarheid, thema-toggle en hamburgerknop.
+          ==================================================================== */}
       <header className="md:hidden fixed top-0 left-0 w-full h-[75px] bg-white/90 dark:bg-[#11161d]/90 backdrop-blur-md border-b border-[#D3DCE1] dark:border-slate-800 z-50 flex items-center justify-between px-5 shadow-sm transition-colors duration-300">
         <div className="flex items-center gap-3">
           <Link href="/" className="relative w-12 h-12 dark:brightness-0 dark:invert transition-all" aria-label="Home">
@@ -175,7 +214,9 @@ export default function SidebarNav() {
         </div>
       </header>
 
-      {/* MOBILE DROPDOWN MENU */}
+      {/* ====================================================================
+          MOBIELE VOLLEDIG SCHERM OVERLAY (Menu open)
+          ==================================================================== */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed top-[75px] left-0 w-full h-[calc(100dvh-75px)] bg-[#f6f6f6] dark:bg-[#0c1015] z-40 flex flex-col justify-between border-t border-[#D3DCE1] dark:border-slate-800 shadow-2xl animate-in slide-in-from-top-4 duration-200">
           <nav className="p-4">
@@ -204,7 +245,7 @@ export default function SidebarNav() {
             </ul>
           </nav>
 
-          {/* Mobile Footer */}
+          {/* Mobiele Footer */}
           <div className="p-6 border-t border-[#D3DCE1] dark:border-slate-800 bg-white dark:bg-[#11161d] flex flex-col items-center">
             <div className="flex justify-center items-center gap-8 mb-3">
               <a

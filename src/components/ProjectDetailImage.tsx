@@ -1,3 +1,17 @@
+/**
+ * @file ProjectDetailImage.tsx
+ * @description Hero-afbeelding voor projectdetailpagina's met zoom-indicator en een schermvullende
+ *              Lightbox-modal die via React Portal buiten de stacking context wordt gerenderd.
+ * 
+ * @layer Components / ProjectDetail
+ * @architecture Client Component ("use client") vanwege modalstate, Esc-toets listener en `createPortal`.
+ * 
+ * @portal_architecture
+ *  De Lightbox gebruikt `createPortal(modalContent, document.body)`. Dit is cruciaal: hierdoor
+ *  ontsnapt de modal aan de `z-10` stacking context van `<main>`, zodat de modal écht het gehele
+ *  scherm (inclusief de desktop zijbalk met `z-40`) netjes afdekt zonder visual glitches.
+ */
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -5,12 +19,24 @@ import Image from "next/image";
 import { createPortal } from "react-dom";
 import { ZoomIn, X } from "lucide-react";
 
+/* ==========================================================================
+   1. TYPES & INTERFACES
+   ========================================================================== */
+
 interface ProjectDetailImageProps {
+  /** Bronlocatie van de projectafbeelding */
   image: string;
+  /** Titeltag voor accessibility en SEO */
   title: string;
+  /** Bovenste Didone-badge tekst */
   badgeTop: string;
+  /** Onderste Didone-badge tekst */
   badgeBottom: string;
 }
+
+/* ==========================================================================
+   2. MAIN COMPONENT: ProjectDetailImage
+   ========================================================================== */
 
 export default function ProjectDetailImage({
   image,
@@ -21,11 +47,14 @@ export default function ProjectDetailImage({
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // Wacht op client mount voor createPortal
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Close on Esc key
+  /**
+   * Toetsenbordtoegankelijkheid (Esc sluit modal) en lock op body scroll
+   */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsOpen(false);
@@ -42,12 +71,16 @@ export default function ProjectDetailImage({
     };
   }, [isOpen]);
 
+  /* ========================================================================
+     3. LIGHTBOX MODAL CONTENT (PORTAL)
+     ======================================================================== */
+
   const modalContent = isOpen ? (
     <div
       onClick={() => setIsOpen(false)}
       className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-200 cursor-zoom-out"
     >
-      {/* Close button */}
+      {/* Sluitknop rechtsboven */}
       <button
         type="button"
         onClick={(e) => {
@@ -60,7 +93,7 @@ export default function ProjectDetailImage({
         <X className="w-6 h-6" />
       </button>
 
-      {/* Modal Image Box */}
+      {/* Vergrote Afbeeldingscontainer */}
       <div
         onClick={(e) => e.stopPropagation()}
         className="relative max-w-5xl max-h-[90vh] w-full h-[85vh] rounded-2xl overflow-hidden shadow-2xl border border-white/15 bg-black"
@@ -77,9 +110,13 @@ export default function ProjectDetailImage({
     </div>
   ) : null;
 
+  /* ========================================================================
+     4. RENDER JSX
+     ======================================================================== */
+
   return (
     <>
-      {/* Header Visual Box */}
+      {/* Interactieve Header Visual Container */}
       <div
         onClick={() => setIsOpen(true)}
         className="relative w-full h-[320px] sm:h-[450px] md:h-[550px] bg-slate-900 overflow-hidden cursor-zoom-in group"
@@ -107,7 +144,7 @@ export default function ProjectDetailImage({
           <span>Klik om te vergroten</span>
         </div>
 
-        {/* Badges in the characteristic Didone font style */}
+        {/* Didone-badges in karakteristieke overlaystijl */}
         <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-10 space-y-2 pointer-events-none">
           <span className="inline-block bg-[#23617F]/95 dark:bg-[#143e54]/95 backdrop-blur-md text-white font-didone text-lg sm:text-2xl px-4 py-1.5 shadow-lg border-l-2 border-white/40">
             {badgeTop}
@@ -119,7 +156,7 @@ export default function ProjectDetailImage({
         </div>
       </div>
 
-      {/* Lightbox Modal rendered via Portal outside any stacking context */}
+      {/* Render de Lightbox Modal via Portal in de root <body> */}
       {mounted && modalContent && createPortal(modalContent, document.body)}
     </>
   );

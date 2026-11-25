@@ -1,3 +1,17 @@
+/**
+ * @file ProjectCard.tsx
+ * @description Individuele showcase-kaart met 3D tilt-wiskunde, dynamische radiale glanslaag (glare),
+ *              karakteristieke zwevende Didone-badges en getrapte verticale hoogte-verspringing.
+ * 
+ * @layer Components / Gallery
+ * @architecture Client Component ("use client") vanwege interactieve muiscoördinatenberekeningen.
+ * 
+ * @visual_design
+ *  - Getrapte verspringing: Even kaarten (`isOdd`) krijgen `+translate-y-8`, oneven kaarten `-translate-y-8`.
+ *  - Begrensde hoogte: `aspect-[375/511]` met `max-h-[56vh]` voorkomt dat kaarten buiten het scherm vallen.
+ *  - 3D Tilt: Wiskundige rotatie tot max +/- 6 graden gebaseerd op cursorpositie ten opzichte van het middelpunt.
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -6,10 +20,20 @@ import Link from "next/link";
 import { Project } from "@/types/project";
 import { ArrowUpRight, Layers } from "lucide-react";
 
+/* ==========================================================================
+   1. TYPES & INTERFACES
+   ========================================================================== */
+
 interface ProjectCardProps {
+  /** Het weer te geven projectobject */
   project: Project;
+  /** De index in de lijst (bepaalt de getrapte verticale verspringing) */
   index: number;
 }
+
+/* ==========================================================================
+   2. MAIN COMPONENT: ProjectCard
+   ========================================================================== */
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
   const [imageError, setImageError] = useState(false);
@@ -21,8 +45,19 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
     isHovered: false,
   });
 
+  // Bepaalt de verticale getrapte verspringing (hoog / laag)
   const isOdd = index % 2 === 0;
 
+  /* ========================================================================
+     3. 3D TILT & GLARE WISKUNDE
+     ======================================================================== */
+
+  /**
+   * Berekent de cursorpositie ten opzichte van het middelpunt van de kaart.
+   * - `rotateX`: Verticaal draaien (invers, max +/- 6 graden).
+   * - `rotateY`: Horizontaal draaien (max +/- 6 graden).
+   * - `glareX / glareY`: Percentuele positie voor het centrum van het radiale glanseffect.
+   */
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -30,7 +65,6 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    // Subtle tilt: max 6 degrees
     const rotateX = ((y - centerY) / centerY) * -6;
     const rotateY = ((x - centerX) / centerX) * 6;
     const glareX = (x / rect.width) * 100;
@@ -39,9 +73,16 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
     setTilt({ rotateX, rotateY, glareX, glareY, isHovered: true });
   };
 
+  /**
+   * Reset transformaties vloeiend bij mouse-leave
+   */
   const handleMouseLeave = () => {
     setTilt({ rotateX: 0, rotateY: 0, glareX: 50, glareY: 50, isHovered: false });
   };
+
+  /* ========================================================================
+     4. RENDER JSX
+     ======================================================================== */
 
   return (
     <div
@@ -54,7 +95,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         className="block relative cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#287094]/50 dark:focus:ring-cyan-500/50 rounded-xl group"
         aria-label={`Bekijk project ${project.title} voor ${project.client}`}
       >
-        {/* Main Card Image Container with 3D tilt & glare */}
+        {/*
+          Hoofdkaart met dynamische 3D Transform
+          `perspective(1000px)` creëert dieptegevoel bij de rotaties.
+        */}
         <div
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -76,7 +120,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
               onError={() => setImageError(true)}
             />
           ) : (
-            /* Fallback SVG Placeholder */
+            /* Fallback SVG placeholder bij ontbrekende of foutieve afbeelding */
             <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 text-slate-600 dark:text-slate-300">
               <Layers className="w-16 h-16 text-[#287094] dark:text-cyan-400 mb-4 opacity-70 group-hover:scale-110 transition-transform" />
               <p className="font-heading font-bold text-lg text-center text-[#287094] dark:text-cyan-400 mb-1">
@@ -91,7 +135,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           )}
 
-          {/* Interactive Dynamic Glare Effect */}
+          {/* Dynamische Glanslaag (Glare Spotlight) */}
           <div
             className="absolute inset-0 pointer-events-none transition-opacity duration-300"
             style={{
@@ -100,10 +144,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             }}
           />
 
-          {/* Subtle Color Accent Overlay */}
+          {/* Subtiel kleuroverlay-accent */}
           <div className="absolute inset-0 bg-[#287094]/10 dark:bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-          {/* Mobile Overlay Tag */}
+          {/* Mobiel compact label (< sm) */}
           <div className="sm:hidden absolute bottom-3 left-3 right-3 bg-[#23617F]/90 dark:bg-slate-900/90 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-xs font-medium flex justify-between items-center shadow-md border border-white/10">
             <div>
               <span className="block font-bold">{project.badgeTop}</span>
@@ -113,8 +157,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
         </div>
 
-        {/* Characteristic Floating Badges (Desktop / Tablet) */}
-        {/* Badge 1 (Top / Category label) */}
+        {/*
+          Karakteristieke Zwevende Badges (Antic Didone typografie)
+          Badge 1 (Boven): Categorie-aanduiding
+        */}
         <div
           className={`hidden sm:block absolute z-20 transition-all duration-300 group-hover:translate-x-1 ${
             isOdd
@@ -127,7 +173,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           </strong>
         </div>
 
-        {/* Badge 2 (Client / Entity label) */}
+        {/* Badge 2 (Onder): Klant-aanduiding */}
         <div
           className={`hidden sm:block absolute z-20 transition-all duration-300 group-hover:translate-x-2 ${
             isOdd

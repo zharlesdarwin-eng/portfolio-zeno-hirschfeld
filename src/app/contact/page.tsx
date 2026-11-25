@@ -1,3 +1,13 @@
+/**
+ * @file page.tsx
+ * @description Contactpagina met 2-koloms layout: links directe contactgegevens met 1-klik kopieeracties,
+ *              rechts het interactieve berichtformulier.
+ * 
+ * @layer Application Page / Contact
+ * @architecture Server Component voor optimale SEO-metadata rendering; delegeert interactiviteit
+ *              aan de client-componenten `ContactDetails` en `ContactForm`.
+ */
+
 import React from "react";
 import ContactForm from "@/components/ContactForm";
 import ContactDetails from "@/components/ContactDetails";
@@ -10,6 +20,7 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <div className="w-full min-h-[100dvh] py-10 px-6 sm:px-10 lg:px-16 flex flex-col items-center">
+      {/* Introductie Header */}
       <div className="w-full max-w-4xl flex flex-col items-center text-center mb-10">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-[#287094] dark:text-cyan-400 tracking-tight mb-4">
           Contact mij
@@ -19,13 +30,14 @@ export default function ContactPage() {
         </p>
       </div>
 
+      {/* 2-Koloms Grid: Gegevens links (5/12), Formulier rechts (7/12) */}
       <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
-        {/* Contact Info Cards with Quick-Copy */}
+        {/* Contact Info Kaart met 1-klik Quick-Copy */}
         <div className="lg:col-span-5">
           <ContactDetails />
         </div>
 
-        {/* Interactive Contact Form */}
+        {/* Interactief Contactformulier */}
         <div className="lg:col-span-7">
           <ContactForm />
         </div>

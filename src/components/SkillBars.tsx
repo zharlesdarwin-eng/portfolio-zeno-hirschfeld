@@ -1,7 +1,20 @@
+/**
+ * @file SkillBars.tsx
+ * @description Geanimeerde vaardigheidsbalken die getrapt animeren van 0% naar het doelniveau
+ *              zodra de sectie via een IntersectionObserver in beeld verschijnt.
+ * 
+ * @layer Components / About
+ * @architecture Client Component ("use client") vanwege DOM-observatie met `IntersectionObserver`.
+ */
+
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import { Sparkles } from "lucide-react";
+
+/* ==========================================================================
+   1. TYPES & INTERFACES
+   ========================================================================== */
 
 interface Skill {
   name: string;
@@ -11,13 +24,22 @@ interface Skill {
 }
 
 interface SkillBarsProps {
+  /** Array van vaardigheden met niveau, percentage en kleurklassen */
   skills: Skill[];
 }
+
+/* ==========================================================================
+   2. MAIN COMPONENT: SkillBars
+   ========================================================================== */
 
 export default function SkillBars({ skills }: SkillBarsProps) {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Observeert wanneer de vaardighedensectie 15% in het viewport komt.
+   * Disconnect na de eerste trigger om onnodige CPU-cycli te vermijden.
+   */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -57,7 +79,11 @@ export default function SkillBars({ skills }: SkillBarsProps) {
                 Niveau {skill.level}/5
               </span>
             </div>
-            {/* Animated Skill Bar Container */}
+
+            {/*
+              Voortgangsbalk met getrapte vertraging:
+              - `transitionDelay: index * 80ms`: Laat elke balk opeenvolgend animeren.
+            */}
             <div className="w-full h-3.5 bg-[#D3DCE1]/60 dark:bg-slate-800 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-1000 ease-out ${skill.class}`}

@@ -1,3 +1,17 @@
+/**
+ * @file page.tsx
+ * @description 'Over Mij' profielpagina met bio, visuele tijdlijn, interactieve vaardigheidsbalken
+ *              en een overzicht van de moderne tech stack.
+ * 
+ * @layer Application Page / Over Mij
+ * @architecture Server Component. Rendert statische tijdlijn- en bio-secties gecombineerd met de
+ *              geanimeerde client-component `SkillBars`.
+ * 
+ * @design_decision
+ *  Er is bewust GEEN download CV-knop aanwezig (conform expliciete wens van de gebruiker),
+ *  waardoor de focus volledig ligt op directe contactmogelijkheden en projectervaring.
+ */
+
 import React from "react";
 import Link from "next/link";
 import {
@@ -19,6 +33,9 @@ export const metadata = {
 };
 
 export default function OverMijPage() {
+  /**
+   * Vaardighedenset met relatief niveau (1-5) en doellevels voor de animatie
+   */
   const skills = [
     { name: "HTML5 & Semantic Markup", level: 5, percentage: 100, class: "bg-[#8BA0A0] dark:bg-cyan-500" },
     { name: "CSS3 / SCSS / Tailwind CSS", level: 5, percentage: 100, class: "bg-[#8BA0A0] dark:bg-cyan-500" },
@@ -30,6 +47,9 @@ export default function OverMijPage() {
     { name: "REST APIs & Data Integration", level: 3, percentage: 60, class: "bg-[#A0B1B1] dark:bg-cyan-700" },
   ];
 
+  /**
+   * Badges voor technologieën en tools
+   */
   const tools = [
     "Next.js 15",
     "React",
@@ -47,7 +67,7 @@ export default function OverMijPage() {
 
   return (
     <div className="w-full min-h-[100dvh] py-10 px-6 sm:px-10 lg:px-16 flex flex-col items-center">
-      {/* Page Title & Intro */}
+      {/* Paginatitel & Korte Introductie */}
       <div className="w-full max-w-4xl text-center mb-12">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-[#287094] dark:text-cyan-400 tracking-tight mb-4">
           Over Mij
@@ -84,14 +104,14 @@ export default function OverMijPage() {
           </div>
         </div>
 
-        {/* Tijdlijn Sectie */}
+        {/* Visuele Tijdlijn: Ervaring & Oorsprong */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold font-heading text-[#287094] dark:text-cyan-400 text-center mb-10">
             Ervaring & Traject
           </h2>
 
           <div className="relative border-l-2 sm:border-l-0 md:border-l-0 border-[#D3DCE1] dark:border-slate-800 ml-4 sm:ml-0 space-y-12">
-            {/* Tijdlijn item 1 */}
+            {/* Tijdlijn item 1: Recent werk */}
             <div className="relative flex flex-col sm:flex-row items-start group">
               <div className="sm:w-1/2 sm:pr-10 sm:text-right pl-8 sm:pl-0">
                 <span className="text-xs font-bold text-[#287094] dark:text-cyan-400 uppercase tracking-wider">
@@ -106,7 +126,6 @@ export default function OverMijPage() {
                 </p>
               </div>
 
-              {/* Tijdlijn Icon Badge */}
               <div className="absolute -left-3.5 sm:left-1/2 sm:-translate-x-1/2 w-8 h-8 rounded-full bg-[#287094] dark:bg-cyan-500 text-white flex items-center justify-center shadow-md border-4 border-white dark:border-[#0c1015] z-10">
                 <Briefcase className="w-3.5 h-3.5" />
               </div>
@@ -114,11 +133,10 @@ export default function OverMijPage() {
               <div className="hidden sm:block sm:w-1/2 sm:pl-10" />
             </div>
 
-            {/* Tijdlijn item 2 */}
+            {/* Tijdlijn item 2: Bureau & freelance projecten */}
             <div className="relative flex flex-col sm:flex-row items-start group">
               <div className="hidden sm:block sm:w-1/2 sm:pr-10" />
 
-              {/* Tijdlijn Icon Badge */}
               <div className="absolute -left-3.5 sm:left-1/2 sm:-translate-x-1/2 w-8 h-8 rounded-full bg-[#8BA0A0] dark:bg-cyan-600 text-white flex items-center justify-center shadow-md border-4 border-white dark:border-[#0c1015] z-10">
                 <Code className="w-3.5 h-3.5" />
               </div>
@@ -137,7 +155,7 @@ export default function OverMijPage() {
               </div>
             </div>
 
-            {/* Tijdlijn item 3 */}
+            {/* Tijdlijn item 3: Oorsprong & Opleiding */}
             <div className="relative flex flex-col sm:flex-row items-start group">
               <div className="sm:w-1/2 sm:pr-10 sm:text-right pl-8 sm:pl-0">
                 <span className="text-xs font-bold text-[#287094] dark:text-cyan-400 uppercase tracking-wider">
@@ -152,7 +170,6 @@ export default function OverMijPage() {
                 </p>
               </div>
 
-              {/* Tijdlijn Icon Badge */}
               <div className="absolute -left-3.5 sm:left-1/2 sm:-translate-x-1/2 w-8 h-8 rounded-full bg-[#287094] dark:bg-cyan-500 text-white flex items-center justify-center shadow-md border-4 border-white dark:border-[#0c1015] z-10">
                 <GraduationCap className="w-3.5 h-3.5" />
               </div>
@@ -162,10 +179,10 @@ export default function OverMijPage() {
           </div>
         </div>
 
-        {/* Vaardigheden met geanimeerde Skill Bars */}
+        {/* Vaardigheden met geanimeerde voortgangsbalken */}
         <SkillBars skills={skills} />
 
-        {/* Tech Stack Icon Grid */}
+        {/* Technologieën & Tools Grid */}
         <div className="bg-white dark:bg-[#11161d] rounded-2xl p-8 sm:p-10 shadow-sm border border-[#D3DCE1] dark:border-slate-800 transition-colors">
           <div className="flex items-center gap-3 mb-6">
             <Layers className="w-6 h-6 text-[#287094] dark:text-cyan-400" />
@@ -185,7 +202,7 @@ export default function OverMijPage() {
           </div>
         </div>
 
-        {/* Call to action */}
+        {/* Call to action naar de contactpagina */}
         <div className="text-center bg-gradient-to-r from-[#287094] to-[#23617F] dark:from-[#1b4e67] dark:to-[#16384a] rounded-2xl p-8 sm:p-12 text-white shadow-xl">
           <h3 className="text-2xl sm:text-3xl font-bold font-heading mb-3">
             Samenwerken aan een volgend project?

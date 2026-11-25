@@ -1,5 +1,23 @@
+/**
+ * @file projects.ts
+ * @description Centrale gegevensbron met alle 8 portfolio-projecten van Zeno Hirschfeld.
+ * 
+ * @layer Data
+ * @architecture Statische datalaag (SSG-ready). Deze array voedt:
+ *  - `/` (Home): Zowel de desktop `HorizontalGallery` als de mobiele `VerticalGallery`.
+ *  - `/project-detail/[slug]`: Statische routegeneratie (`generateStaticParams`) en detailweergave.
+ * 
+ * @assets
+ *  Alle afbeeldingen bevinden zich in `/public/images/projects/` en hebben een consistente
+ *  hoge resolutie (oorspronkelijke verhouding 375:511 of retina 750:1022).
+ */
+
 import { Project } from "@/types/project";
 
+/**
+ * Complete collectie van gerealiseerde projecten en interactieve prototypes.
+ * Gerangschikt in chronologische en thematische volgorde.
+ */
 export const projects: Project[] = [
   {
     slug: "an-verhuurders",

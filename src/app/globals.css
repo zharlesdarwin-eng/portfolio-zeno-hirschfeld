@@ -1,6 +1,20 @@
+/**
+ * @file globals.css
+ * @description Globale stijlen, CSS Custom Properties (variabelen) en utility-hulpklassen.
+ * 
+ * @layer Styles / Global
+ * @utilities
+ *  - `.no-scrollbar`: Verbergt de standaard browser scrollbar voor een strakke, minimalistische
+ *    horizontale carrousel-ervaring, terwijl scrollen via muiswiel, drag en toetsenbord volledig functioneel blijft.
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ==========================================================================
+   1. CSS VARIABELEN & KLEURENPALET
+   ========================================================================== */
 
 :root {
   --background: #f6f6f6;
@@ -13,6 +27,10 @@
   --font-didone: var(--font-antic-didone);
 }
 
+/* ==========================================================================
+   2. BASIS DOCUMENTSTIJLEN
+   ========================================================================== */
+
 body {
   color: var(--foreground);
   background-color: var(--background);
@@ -24,17 +42,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbar for clean horizontal carousel experience while preserving scroll functionality */
+/* ==========================================================================
+   3. HORIZONTALE SCROLLBAR VERBERGEN
+   Verbergt de schuifbalk in Chrome, Safari, Firefox en Edge zonder scrollevents te blokkeren.
+   ========================================================================== */
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  -ms-overflow-style: none; /* Internet Explorer en oudere Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-/* Custom Selection style */
+/* ==========================================================================
+   4. TEKSTSELECTIE ACCENT
+   ========================================================================== */
+
 ::selection {
   background-color: #287094;
   color: #ffffff;

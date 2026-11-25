@@ -1,3 +1,12 @@
+/**
+ * @file WaveBackground.tsx
+ * @description Decoratieve SVG-golf onderaan het scherm die het visuele ritme van het portfolio verrijkt.
+ * 
+ * @layer Components / Ambient Visuals
+ * @architecture Server Component. Puur presentatieel, met `pointer-events-none` en lage z-index.
+ *              Wordt op mobiel verborgen (`hidden md:block`) om performance en schermruimte te maximaliseren.
+ */
+
 import React from "react";
 
 export default function WaveBackground() {

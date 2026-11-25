@@ -1,3 +1,17 @@
+/**
+ * @file ContactDetails.tsx
+ * @description Interactieve contactgegevenslijst met 1-klik klembord-kopieerfunctionaliteit
+ *              en directe visuele feedback via het Toast-systeem.
+ * 
+ * @layer Components / Contact
+ * @architecture Client Component ("use client") vanwege state en navigator.clipboard API.
+ * 
+ * @features
+ *  - Kopieert e-mail of telefoonnummer met 1 klik naar het klembord.
+ *  - Geeft direct een succes-icoon (Check) en activeert de globale Toast-notificatie.
+ *  - Teksten zijn voorzien van `truncate` om onhandige woordafbrekingen op kleinere schermen te voorkomen.
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -8,6 +22,9 @@ export default function ContactDetails() {
   const { showToast } = useToast();
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
+  /**
+   * Kopieert de opgegeven tekst naar het klembord en triggert een toast
+   */
   const copyToClipboard = async (text: string, label: string, key: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -19,6 +36,9 @@ export default function ContactDetails() {
     }
   };
 
+  /**
+   * Gegevensconfiguratie
+   */
   const contactDetails = [
     {
       key: "email",
@@ -58,6 +78,7 @@ export default function ContactDetails() {
 
   return (
     <div className="bg-white dark:bg-[#11161d] rounded-2xl p-6 sm:p-8 shadow-md border border-[#D3DCE1] dark:border-slate-800 flex flex-col gap-6 transition-colors">
+      {/* Header van de kaart */}
       <div className="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
         <div className="w-10 h-10 rounded-xl bg-[#287094]/10 dark:bg-cyan-500/10 text-[#287094] dark:text-cyan-400 flex items-center justify-center">
           <MessageSquare className="w-5 h-5" />
@@ -70,6 +91,7 @@ export default function ContactDetails() {
         </div>
       </div>
 
+      {/* Gegevensrijen met optionele 1-klik kopieerknop */}
       <div className="flex flex-col gap-4">
         {contactDetails.map((item) => {
           const Icon = item.icon;
@@ -104,7 +126,7 @@ export default function ContactDetails() {
                 </div>
               </div>
 
-              {/* Quick Copy Action Button */}
+              {/* 1-Klik Kopieerknop */}
               {item.canCopy && item.copyValue && (
                 <button
                   type="button"

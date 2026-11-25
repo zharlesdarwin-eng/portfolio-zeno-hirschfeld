@@ -1,3 +1,12 @@
+/**
+ * @file PortfolioShowcase.tsx
+ * @description Responsieve showcase-wrapper die dynamisch schakelt tussen de horizontale desktop-galerij
+ *              en de mobiele verticale feed op basis van de schermbreedte (< 768px).
+ * 
+ * @layer Components / Gallery
+ * @architecture Client Component ("use client") met resize-listener voor naadloze weergave-transitie.
+ */
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -8,7 +17,9 @@ import VerticalGallery from "@/components/VerticalGallery";
 export default function PortfolioShowcase() {
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile viewport (< 768px) for automatic vertical feed
+  /**
+   * Detecteert mobiel viewport (< 768px) en past layout automatisch aan
+   */
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -20,7 +31,7 @@ export default function PortfolioShowcase() {
 
   return (
     <div className="w-full h-full flex flex-col">
-      {/* Mobile (< 768px): Clean vertical feed */}
+      {/* Mobiel (< 768px): Verticale feed */}
       {isMobile ? (
         <div className="w-full px-5 py-6">
           <div className="mb-6 text-center">
@@ -34,7 +45,7 @@ export default function PortfolioShowcase() {
           <VerticalGallery projects={projects} />
         </div>
       ) : (
-        /* Desktop / Tablet (>= 768px): Pure, immersive horizontal showcase */
+        /* Desktop / Tablet (>= 768px): Volledige horizontale galerij */
         <HorizontalGallery filteredProjects={projects} />
       )}
     </div>

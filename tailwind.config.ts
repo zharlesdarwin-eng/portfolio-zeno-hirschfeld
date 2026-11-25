@@ -1,3 +1,23 @@
+/**
+ * @file tailwind.config.ts
+ * @description Tailwind CSS configuratiebestand voor het Portfolio van Zeno Hirschfeld.
+ * 
+ * @layer Configuration / Styling
+ * @theming
+ *  - `darkMode: "class"`: Schakelt donkere modus in via de `.dark` klasse op het `<html>` element
+ *    (beheerd door `next-themes` en de `ThemeProvider`).
+ * 
+ * @typography
+ *  - `font-sans`: 'Source Sans 3' / 'Source Sans Pro' — gebruikt voor algemene body-teksten en interface-elementen.
+ *  - `font-heading`: 'Ubuntu' — gebruikt voor opvallende paginatitels, sectiekoppen en knoppen.
+ *  - `font-didone`: 'Antic Didone' — historisch karakteristieke serif-typografie voor de zwevende projectbadges.
+ * 
+ * @colors
+ *  - `brand.primary`: #287094 (kenmerkend oceaanblauw van de oorspronkelijke Wayback capture).
+ *  - `brand.accent`: #23617F (iets diepere tint voor badges en contrastaccenten).
+ *  - `brand.skill1-5`: Oorspronkelijke vaardigheidskleuren uit het historische CSS-stylesheet (`main.css`).
+ */
+
 import type { Config } from "tailwindcss";
 
 const config: Config = {

@@ -1,3 +1,15 @@
+/**
+ * @file ThemeToggle.tsx
+ * @description Interactieve schakelaar tussen lichte en donkere modus met vloeiende icoon-rotatie.
+ * 
+ * @layer Components / Navigation
+ * @architecture Client Component ("use client") met `useTheme` van `next-themes`.
+ * 
+ * @hydratation
+ *  Bevat een `mounted` state-check om 'hydration mismatches' tussen server HTML en client render
+ *  volledig te elimineren (aangezien de server het gebruikers-thema niet van tevoren kent).
+ */
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -5,13 +17,15 @@ import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  // Wacht tot de client gemount is om hydration mismatch te voorkomen
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Placeholder tijdens initialisatie op de server
   if (!mounted) {
     return (
       <div className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-800" />

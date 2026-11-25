@@ -1,3 +1,11 @@
+/**
+ * @file ContactForm.tsx
+ * @description Interactief contactformulier met client-side validatie, laadstatus en succesfeedback.
+ * 
+ * @layer Components / Contact
+ * @architecture Client Component ("use client") met form-state en simulatie van verzending.
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -14,20 +22,28 @@ export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
+  /**
+   * Behandelt wijzigingen in inputvelden
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  /**
+   * Valideert invoer en verwerkt de indiening
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validatie op verplichte velden
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setStatus("error");
       setErrorMessage("Vul alsjeblieft alle verplichte velden (naam, e-mail en bericht) in.");
       return;
     }
 
+    // E-mailadres syntaxis controle
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
       setStatus("error");
       setErrorMessage("Vul een geldig e-mailadres in.");
@@ -36,6 +52,7 @@ export default function ContactForm() {
 
     setStatus("submitting");
 
+    // Simulatie van netwerkverzoek
     setTimeout(() => {
       setStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
@@ -51,6 +68,7 @@ export default function ContactForm() {
         Heb je een project, vacature of vraag? Vul het onderstaande formulier in en ik kom zo snel mogelijk bij je terug.
       </p>
 
+      {/* Succesbericht banner */}
       {status === "success" && (
         <div
           role="alert"
@@ -66,6 +84,7 @@ export default function ContactForm() {
         </div>
       )}
 
+      {/* Foutmelding banner */}
       {status === "error" && (
         <div
           role="alert"
