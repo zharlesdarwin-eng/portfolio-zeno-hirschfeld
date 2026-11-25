@@ -4,13 +4,13 @@ import {
   Code,
   Briefcase,
   GraduationCap,
-  Sparkles,
   Layers,
   CheckCircle,
   ExternalLink,
   Laptop,
   Palette,
 } from "lucide-react";
+import SkillBars from "@/components/SkillBars";
 
 export const metadata = {
   title: "Over Mij | Portfolio Zeno Hirschfeld.",
@@ -162,35 +162,8 @@ export default function OverMijPage() {
           </div>
         </div>
 
-        {/* Vaardigheden & Skill Bars */}
-        <div className="bg-white dark:bg-[#11161d] rounded-2xl p-8 sm:p-10 shadow-sm border border-[#D3DCE1] dark:border-slate-800 transition-colors">
-          <div className="flex items-center gap-3 mb-8">
-            <Sparkles className="w-6 h-6 text-[#287094] dark:text-cyan-400" />
-            <h2 className="text-2xl sm:text-3xl font-bold font-heading text-[#287094] dark:text-cyan-400">
-              Vaardigheden & Expertise
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-            {skills.map((skill, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="font-bold text-[#3D3D3D] dark:text-slate-200">{skill.name}</span>
-                  <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
-                    Niveau {skill.level}/5
-                  </span>
-                </div>
-                {/* Skill Bar Container */}
-                <div className="w-full h-3.5 bg-[#D3DCE1] dark:bg-slate-800 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-1000 ${skill.class}`}
-                    style={{ width: `${skill.percentage}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Vaardigheden met geanimeerde Skill Bars */}
+        <SkillBars skills={skills} />
 
         {/* Tech Stack Icon Grid */}
         <div className="bg-white dark:bg-[#11161d] rounded-2xl p-8 sm:p-10 shadow-sm border border-[#D3DCE1] dark:border-slate-800 transition-colors">

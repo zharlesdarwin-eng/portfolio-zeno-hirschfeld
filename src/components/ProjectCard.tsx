@@ -13,7 +13,35 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [tilt, setTilt] = useState({
+    rotateX: 0,
+    rotateY: 0,
+    glareX: 50,
+    glareY: 50,
+    isHovered: false,
+  });
+
   const isOdd = index % 2 === 0;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Subtle tilt: max 6 degrees
+    const rotateX = ((y - centerY) / centerY) * -6;
+    const rotateY = ((x - centerX) / centerX) * 6;
+    const glareX = (x / rect.width) * 100;
+    const glareY = (y / rect.height) * 100;
+
+    setTilt({ rotateX, rotateY, glareX, glareY, isHovered: true });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ rotateX: 0, rotateY: 0, glareX: 50, glareY: 50, isHovered: false });
+  };
 
   return (
     <div
@@ -26,15 +54,25 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         className="block relative cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#287094]/50 dark:focus:ring-cyan-500/50 rounded-xl group"
         aria-label={`Bekijk project ${project.title} voor ${project.client}`}
       >
-        {/* Main Card Image Container with controlled max-height to avoid top/bottom overflow */}
-        <div className="relative aspect-[375/511] h-[360px] sm:h-[400px] md:h-[440px] lg:h-[470px] xl:h-[490px] max-h-[56vh] rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-lg border border-[#D3DCE1]/80 dark:border-slate-800 group-hover:shadow-2xl group-hover:border-[#287094]/50 dark:group-hover:border-cyan-500/50 group-hover:-translate-y-2 transition-all duration-300">
+        {/* Main Card Image Container with 3D tilt & glare */}
+        <div
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            transform: tilt.isHovered
+              ? `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale3d(1.02, 1.02, 1.02)`
+              : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+            transition: tilt.isHovered ? "transform 0.1s ease-out" : "transform 0.5s ease-out",
+          }}
+          className="relative aspect-[375/511] h-[360px] sm:h-[400px] md:h-[440px] lg:h-[470px] xl:h-[490px] max-h-[56vh] rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-lg border border-[#D3DCE1]/80 dark:border-slate-800 group-hover:shadow-2xl group-hover:border-[#287094]/50 dark:group-hover:border-cyan-500/50 will-change-transform"
+        >
           {!imageError ? (
             <Image
               src={project.image}
               alt={`Showcase visual van ${project.badgeTop} - ${project.badgeBottom}`}
               fill
               sizes="(max-width: 640px) 264px, (max-width: 768px) 293px, (max-width: 1024px) 322px, 360px"
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105 pointer-events-none"
               onError={() => setImageError(true)}
             />
           ) : (
@@ -53,7 +91,16 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           )}
 
-          {/* Subtle Hover Overlay */}
+          {/* Interactive Dynamic Glare Effect */}
+          <div
+            className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+            style={{
+              opacity: tilt.isHovered ? 1 : 0,
+              background: `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 45%, transparent 70%)`,
+            }}
+          />
+
+          {/* Subtle Color Accent Overlay */}
           <div className="absolute inset-0 bg-[#287094]/10 dark:bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
           {/* Mobile Overlay Tag */}

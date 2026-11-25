@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronRight, Mail } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useToast } from "@/components/Toast";
 
 function LinkedinIcon({ className }: { className?: string }) {
   return (
@@ -24,6 +25,19 @@ function LinkedinIcon({ className }: { className?: string }) {
 export default function SidebarNav() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { showToast } = useToast();
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText("z.g.s.hirschfeld@gmail.com").then(
+      () => {
+        showToast("E-mailadres gekopieerd naar klembord!", "success");
+      },
+      () => {
+        window.location.href = "mailto:z.g.s.hirschfeld@gmail.com";
+      }
+    );
+  };
 
   const navItems = [
     { label: "Portfolio", href: "/" },
@@ -44,7 +58,7 @@ export default function SidebarNav() {
         className="hidden md:flex fixed top-0 left-0 h-[100dvh] w-[20vw] min-w-[220px] max-w-[300px] flex-col justify-between items-center bg-white dark:bg-[#11161d] border-r border-[#D3DCE1] dark:border-slate-800/80 z-40 px-4 py-8 shadow-sm transition-colors duration-300"
         aria-label="Hoofdnavigatie"
       >
-        {/* Top Section with ThemeToggle & Logo */}
+        {/* Top Section with ThemeToggle, Logo & Availability Status */}
         <div className="w-full flex flex-col items-center">
           <div className="w-full flex justify-end px-2 mb-2">
             <ThemeToggle />
@@ -65,6 +79,15 @@ export default function SidebarNav() {
               />
             </div>
           </Link>
+
+          {/* Availability Status Badge with animated ping & steady dot */}
+          <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <span>Beschikbaar voor werk</span>
+          </div>
         </div>
 
         {/* Menu Items */}
@@ -90,25 +113,27 @@ export default function SidebarNav() {
           </ul>
         </nav>
 
-        {/* Footer with Socials */}
+        {/* Footer with Socials and Quick Copy */}
         <div className="w-full pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center">
-          <div className="flex justify-center items-center gap-6 mb-4">
+          <div className="flex justify-center items-center gap-4 mb-4">
             <a
               href="https://www.linkedin.com/in/zenohirschfeld/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profiel van Zeno Hirschfeld"
-              className="text-[#3D3D3D] dark:text-slate-300 hover:text-[#287094] dark:hover:text-cyan-400 transition-colors p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="text-[#3D3D3D] dark:text-slate-300 hover:text-[#287094] dark:hover:text-cyan-400 transition-colors p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              <LinkedinIcon className="w-6 h-6" />
+              <LinkedinIcon className="w-5 h-5" />
             </a>
-            <a
-              href="mailto:z.g.s.hirschfeld@gmail.com"
-              aria-label="Email sturen naar Zeno Hirschfeld"
-              className="text-[#3D3D3D] dark:text-slate-300 hover:text-[#287094] dark:hover:text-cyan-400 transition-colors p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              aria-label="Kopieer e-mailadres z.g.s.hirschfeld@gmail.com"
+              title="Kopieer e-mailadres"
+              className="text-[#3D3D3D] dark:text-slate-300 hover:text-[#287094] dark:hover:text-cyan-400 transition-colors p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              <Mail className="w-6 h-6" />
-            </a>
+              <Mail className="w-5 h-5" />
+            </button>
           </div>
           <div className="text-center text-xs text-slate-400 dark:text-slate-500">
             <span>© {new Date().getFullYear()} Zeno Hirschfeld</span>
@@ -118,15 +143,25 @@ export default function SidebarNav() {
 
       {/* MOBILE TOP BAR (< 850px) */}
       <header className="md:hidden fixed top-0 left-0 w-full h-[75px] bg-white/90 dark:bg-[#11161d]/90 backdrop-blur-md border-b border-[#D3DCE1] dark:border-slate-800 z-50 flex items-center justify-between px-5 shadow-sm transition-colors duration-300">
-        <Link href="/" className="relative w-14 h-14 dark:brightness-0 dark:invert transition-all" aria-label="Home">
-          <Image
-            src="/images/logo/ZH_Logo_LightTheme.svg"
-            alt="Zeno Hirschfeld Logo"
-            fill
-            priority
-            className="object-contain"
-          />
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" className="relative w-12 h-12 dark:brightness-0 dark:invert transition-all" aria-label="Home">
+            <Image
+              src="/images/logo/ZH_Logo_LightTheme.svg"
+              alt="Zeno Hirschfeld Logo"
+              fill
+              priority
+              className="object-contain"
+            />
+          </Link>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-400 text-[11px] font-semibold">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span>Beschikbaar</span>
+          </div>
+        </div>
+
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <button
@@ -181,13 +216,14 @@ export default function SidebarNav() {
               >
                 <LinkedinIcon className="w-7 h-7" />
               </a>
-              <a
-                href="mailto:z.g.s.hirschfeld@gmail.com"
-                aria-label="Email"
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                aria-label="Kopieer e-mail"
                 className="text-[#3D3D3D] dark:text-slate-300 hover:text-[#287094] dark:hover:text-cyan-400 transition-colors p-3 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <Mail className="w-7 h-7" />
-              </a>
+              </button>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
               © {new Date().getFullYear()} Zeno Hirschfeld

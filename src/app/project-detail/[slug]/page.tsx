@@ -1,9 +1,9 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
-import { ArrowLeft, CheckCircle2, Calendar, User, Tag, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Calendar, User, Tag, Sparkles } from "lucide-react";
+import ProjectDetailImage from "@/components/ProjectDetailImage";
 
 interface ProjectDetailPageProps {
   params: Promise<{
@@ -19,11 +19,15 @@ export async function generateStaticParams() {
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const currentIndex = projects.findIndex((p) => p.slug === slug);
 
-  if (!project) {
+  if (currentIndex === -1) {
     notFound();
   }
+
+  const project = projects[currentIndex];
+  const prevProject = projects[(currentIndex - 1 + projects.length) % projects.length];
+  const nextProject = projects[(currentIndex + 1) % projects.length];
 
   return (
     <div className="w-full min-h-[100dvh] py-10 px-6 sm:px-10 lg:px-16 flex flex-col items-center">
@@ -37,35 +41,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           <span>Terug naar Portfolio</span>
         </Link>
         <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">
-          Project Showcase
+          Project {currentIndex + 1} van {projects.length}
         </span>
       </div>
 
-      <div className="w-full max-w-4xl bg-white dark:bg-[#11161d] rounded-3xl overflow-hidden shadow-xl border border-[#D3DCE1] dark:border-slate-800 mb-16 transition-colors">
-        {/* Header Visual with Floating Badges */}
-        <div className="relative w-full h-[320px] sm:h-[450px] md:h-[550px] bg-slate-900 overflow-hidden">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 1000px"
-            className="object-cover object-top opacity-95"
-          />
-
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-
-          {/* Badges in the Didone font style */}
-          <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-10 space-y-2">
-            <span className="inline-block bg-[#23617F]/95 dark:bg-[#143e54]/95 backdrop-blur-md text-white font-didone text-lg sm:text-2xl px-4 py-1.5 shadow-lg border-l-2 border-white/40">
-              {project.badgeTop}
-            </span>
-            <div />
-            <span className="inline-block bg-[#23617F]/95 dark:bg-[#143e54]/95 backdrop-blur-md text-white font-didone text-lg sm:text-2xl px-4 py-1.5 shadow-lg border-l-2 border-white/40">
-              {project.badgeBottom}
-            </span>
-          </div>
-        </div>
+      <div className="w-full max-w-4xl bg-white dark:bg-[#11161d] rounded-3xl overflow-hidden shadow-xl border border-[#D3DCE1] dark:border-slate-800 mb-10 transition-colors">
+        {/* Interactive Header Visual with Lightbox Zoom */}
+        <ProjectDetailImage
+          image={project.image}
+          title={project.title}
+          badgeTop={project.badgeTop}
+          badgeBottom={project.badgeBottom}
+        />
 
         {/* Content Body */}
         <div className="p-6 sm:p-10 md:p-12 space-y-8">
@@ -163,6 +150,47 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Prev / Next Project Quick Navigation */}
+      <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
+        <Link
+          href={`/project-detail/${prevProject.slug}`}
+          className="flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-[#11161d] border border-[#D3DCE1] dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#287094]/40 dark:hover:border-cyan-500/40 transition-all group"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:text-[#287094] dark:group-hover:text-cyan-400 flex items-center justify-center transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="block text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                Vorig Project
+              </span>
+              <span className="text-sm font-bold text-[#3D3D3D] dark:text-white group-hover:text-[#287094] dark:group-hover:text-cyan-400 transition-colors">
+                {prevProject.title}
+              </span>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          href={`/project-detail/${nextProject.slug}`}
+          className="flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-[#11161d] border border-[#D3DCE1] dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#287094]/40 dark:hover:border-cyan-500/40 transition-all group sm:text-right"
+        >
+          <div className="flex items-center justify-end gap-3 w-full sm:flex-row-reverse">
+            <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:text-[#287094] dark:group-hover:text-cyan-400 flex items-center justify-center transition-colors">
+              <ArrowRight className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="block text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                Volgend Project
+              </span>
+              <span className="text-sm font-bold text-[#3D3D3D] dark:text-white group-hover:text-[#287094] dark:group-hover:text-cyan-400 transition-colors">
+                {nextProject.title}
+              </span>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   );
