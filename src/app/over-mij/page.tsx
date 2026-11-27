@@ -1,19 +1,14 @@
 /**
  * @file page.tsx
- * @description 'Over Mij' profielpagina met bio, visuele tijdlijn, interactieve vaardigheidsbalken
- *              en een overzicht van de moderne tech stack.
+ * @description 'Over Mij' profielpagina met bio, tijdlijn, vaardigheidsbalken en ProfilePage JSON-LD.
  * 
  * @layer Application Page / Over Mij
- * @architecture Server Component. Rendert statische tijdlijn- en bio-secties gecombineerd met de
- *              geanimeerde client-component `SkillBars`.
- * 
- * @design_decision
- *  Er is bewust GEEN download CV-knop aanwezig (conform expliciete wens van de gebruiker),
- *  waardoor de focus volledig ligt op directe contactmogelijkheden en projectervaring.
+ * @architecture Server Component met Schema.org `ProfilePage` JSON-LD schema.
  */
 
 import React from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import {
   Code,
   Briefcase,
@@ -26,16 +21,50 @@ import {
 } from "lucide-react";
 import SkillBars from "@/components/SkillBars";
 
-export const metadata = {
-  title: "Over Mij | Portfolio Zeno Hirschfeld.",
+const SITE_URL = "https://portfolio-zeno-hirschfeld.vercel.app";
+
+export const metadata: Metadata = {
+  title: "Over Mij",
   description:
-    "Ervaring, vaardigheden en achtergrond van Zeno Hirschfeld - Frontend Developer & Designer.",
+    "Ervaring, vaardigheden en achtergrond van Zeno Hirschfeld — Frontend Developer en UI/UX Designer uit Den Haag. Gespecialiseerd in Next.js, React, TypeScript en backoffice architecturen.",
+  alternates: {
+    canonical: "/over-mij",
+  },
+  openGraph: {
+    title: "Over Mij | Zeno Hirschfeld",
+    description:
+      "Achtergrond, vaardigheden en werkervaring van Frontend Specialist Zeno Hirschfeld uit Den Haag.",
+    url: `${SITE_URL}/over-mij`,
+  },
+};
+
+const profilePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: "Zeno Hirschfeld",
+    jobTitle: "Frontend Developer & UI/UX Designer",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Den Haag",
+      addressCountry: "NL",
+    },
+    knowsAbout: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "UI/UX Design",
+      "HTML5",
+      "CSS3",
+      "REST APIs",
+      "Backoffice Architectuur",
+    ],
+  },
 };
 
 export default function OverMijPage() {
-  /**
-   * Vaardighedenset met relatief niveau (1-5) en doellevels voor de animatie
-   */
   const skills = [
     { name: "HTML5 & Semantic Markup", level: 5, percentage: 100, class: "bg-[#8BA0A0] dark:bg-cyan-500" },
     { name: "CSS3 / SCSS / Tailwind CSS", level: 5, percentage: 100, class: "bg-[#8BA0A0] dark:bg-cyan-500" },
@@ -47,9 +76,6 @@ export default function OverMijPage() {
     { name: "REST APIs & Data Integration", level: 3, percentage: 60, class: "bg-[#A0B1B1] dark:bg-cyan-700" },
   ];
 
-  /**
-   * Badges voor technologieën en tools
-   */
   const tools = [
     "Next.js 15",
     "React",
@@ -67,6 +93,12 @@ export default function OverMijPage() {
 
   return (
     <div className="w-full min-h-[100dvh] py-10 px-6 sm:px-10 lg:px-16 flex flex-col items-center">
+      {/* Schema.org ProfilePage gestructureerde data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
+      />
+
       {/* Paginatitel & Korte Introductie */}
       <div className="w-full max-w-4xl text-center mb-12">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-[#287094] dark:text-cyan-400 tracking-tight mb-4">
@@ -107,20 +139,19 @@ export default function OverMijPage() {
         {/* Visuele Tijdlijn: Ervaring & Oorsprong */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold font-heading text-[#287094] dark:text-cyan-400 text-center mb-10">
-            Ervaring & Traject
+            Ervaring &amp; Traject
           </h2>
 
           <div className="relative border-l-2 sm:border-l-0 md:border-l-0 border-[#D3DCE1] dark:border-slate-800 ml-4 sm:ml-0 space-y-12">
-            {/* Tijdlijn item 1: Recent werk */}
             <div className="relative flex flex-col sm:flex-row items-start group">
               <div className="sm:w-1/2 sm:pr-10 sm:text-right pl-8 sm:pl-0">
                 <span className="text-xs font-bold text-[#287094] dark:text-cyan-400 uppercase tracking-wider">
                   2022 - Heden
                 </span>
                 <h3 className="text-xl font-bold font-heading text-[#3D3D3D] dark:text-white mt-1">
-                  Frontend & UI Architectuur
+                  Frontend &amp; UI Architectuur
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">A&N Vastgoed & Vaste Projecten</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">A&amp;N Vastgoed &amp; Vaste Projecten</p>
                 <p className="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
                   Ontwikkeling en modernisering van vastgoedbackoffices, verhuurdersdashboards en interactieve componentenbibliotheken. Verantwoordelijk voor zowel UX-concepten in Figma als de daadwerkelijke frontend implementatie.
                 </p>
@@ -133,7 +164,6 @@ export default function OverMijPage() {
               <div className="hidden sm:block sm:w-1/2 sm:pl-10" />
             </div>
 
-            {/* Tijdlijn item 2: Bureau & freelance projecten */}
             <div className="relative flex flex-col sm:flex-row items-start group">
               <div className="hidden sm:block sm:w-1/2 sm:pr-10" />
 
@@ -146,7 +176,7 @@ export default function OverMijPage() {
                   2021 - 2022
                 </span>
                 <h3 className="text-xl font-bold font-heading text-[#3D3D3D] dark:text-white mt-1">
-                  Web & Prototype Specialist
+                  Web &amp; Prototype Specialist
                 </h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Diverse Opdrachtgevers (o.a. Van Bavel, JR Productions)</p>
                 <p className="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
@@ -155,16 +185,15 @@ export default function OverMijPage() {
               </div>
             </div>
 
-            {/* Tijdlijn item 3: Oorsprong & Opleiding */}
             <div className="relative flex flex-col sm:flex-row items-start group">
               <div className="sm:w-1/2 sm:pr-10 sm:text-right pl-8 sm:pl-0">
                 <span className="text-xs font-bold text-[#287094] dark:text-cyan-400 uppercase tracking-wider">
-                  Opleiding & Oorsprong
+                  Opleiding &amp; Oorsprong
                 </span>
                 <h3 className="text-xl font-bold font-heading text-[#3D3D3D] dark:text-white mt-1">
-                  Software Development & Design
+                  Software Development &amp; Design
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Den Haag & Omgeving</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Den Haag &amp; Omgeving</p>
                 <p className="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
                   Gespecialiseerd in moderne webstandaarden, semantische HTML5, CSS-architectuur en component-gebaseerde applicaties.
                 </p>
@@ -187,7 +216,7 @@ export default function OverMijPage() {
           <div className="flex items-center gap-3 mb-6">
             <Layers className="w-6 h-6 text-[#287094] dark:text-cyan-400" />
             <h2 className="text-2xl sm:text-3xl font-bold font-heading text-[#287094] dark:text-cyan-400">
-              Technologieën & Tools
+              Technologieën &amp; Tools
             </h2>
           </div>
           <div className="flex flex-wrap gap-2.5 sm:gap-3">

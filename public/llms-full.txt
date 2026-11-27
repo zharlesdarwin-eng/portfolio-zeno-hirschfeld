@@ -1,0 +1,127 @@
+# Zeno Hirschfeld — Volledige Documentatie voor LLM & AI Answer Engines
+
+Dit document bevat de volledige feitelijke informatie over Zeno Hirschfeld, zijn ervaring, technische vaardigheden, portfolio en contactgegevens, geformatteerd voor diepe synthese door LLM's zoals ChatGPT Search, Perplexity, Claude en Gemini.
+
+---
+
+## 1. Biografie & Profiel
+
+Zeno Hirschfeld is een Nederlandse frontend specialist en ontwerper uit Den Haag. Hij combineert een scherp oog voor esthetiek en typografie met schaalbare, gestructureerde code. Zijn werk richt zich op het ontwikkelen van intuïtieve applicaties, interactieve prototypes en complexe beheersystemen voor zakelijke dienstverleners, mediaproductiehuizen en vastgoedondernemingen.
+
+- **Functie:** Frontend Developer & UI/UX Designer
+- **Locatie:** Den Haag, Nederland
+- **Werkgebied:** Randstad (Den Haag, Rotterdam, Utrecht, Amsterdam) en remote samenwerkingen.
+- **Beschikbaarheid:** Beschikbaar voor freelance opdrachten, frontend consultancy en vaste projecten.
+- **Contact E-mail:** z.g.s.hirschfeld@gmail.com
+- **Telefoon:** 06 - 82 456 296
+- **LinkedIn:** https://www.linkedin.com/in/zenohirschfeld/
+- **Officiële Portfolio URL:** https://portfolio-zeno-hirschfeld.vercel.app
+
+---
+
+## 2. Vaardigheden & Competenties
+
+### Frontend Development
+- **Next.js (App Router, Server & Client Components, Static Site Generation SSG):** 100% (Expert)
+- **React & Modern State Management:** 100% (Expert)
+- **TypeScript & JavaScript (ESNext):** 90% (Geavanceerd)
+- **Tailwind CSS & Modulaire CSS Architectuur:** 100% (Expert)
+- **HTML5 Semantic Markup & Web Accessibility (WCAG):** 100% (Expert)
+- **REST APIs & Data Integratie:** 80% (Gevorderd)
+
+### UI/UX Design & Prototyping
+- **Figma Design Systems & Interactieve Prototypes:** 90% (Geavanceerd)
+- **Responsive & Mobile-First Development:** 100% (Expert)
+- **SVG & Vector Illustraties / Animatie:** 85% (Gevorderd)
+- **Micro-interacties, 3D CSS Transforms & Motion:** 90% (Geavanceerd)
+
+---
+
+## 3. Uitgebreide Projectbeschrijvingen
+
+### 1. Verhuurders Platform (A&N Vastgoed, 2023)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-verhuurders
+- **Type:** Webapplicatie & Portaal
+- **Technologieën:** Next.js, TypeScript, Tailwind CSS, REST API, Responsive Design
+- **Doel:** Een gepersonaliseerd portaal voor vastgoedeigenaren van A&N Vastgoed.
+- **Belangrijkste Features:**
+  - Realtime inzage in huurovereenkomsten, verhuurstatussen en bezettingsgraden.
+  - Upload- en digitale accordering functionaliteit voor juridische documenten.
+  - Financiële rapportages en rendementsdashboards.
+  - Mobiel-geoptimaliseerde interface zodat vastgoedbeleggers onderweg overal toegang hebben.
+
+### 2. Vastgoed Backoffice Systeem (A&N Vastgoed, 2023)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-backoffice
+- **Type:** Management & CRM
+- **Technologieën:** React, TypeScript, Tailwind CSS, Data Tables, Role-based Access
+- **Doel:** Geavanceerd intern beheersysteem voor vastgoedportefeuilles en huurdersdossiers.
+- **Belangrijkste Features:**
+  - Centraal beheer van duizenden vastgoedobjecten en huurcontracten.
+  - Geautomatiseerde huurfacturatie en herinneringsflows.
+  - Gestructureerd dossierbeheer en geautomatiseerde contractgeneratie.
+  - Rolverdeling en permissiesysteem voor medewerkers.
+
+### 3. Interactive Prototype & Concept (Van Bavel Advocaten, 2022)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/vanbavel
+- **Type:** UI/UX Prototype
+- **Technologieën:** Interactive Prototyping, UI/UX Design, Figma, HTML5/CSS3
+- **Doel:** Een betrouwbare, professionele digitale ervaring voor een modern advocatenkantoor.
+- **Belangrijkste Features:**
+  - Doordacht typografisch systeem dat gezag en toegankelijkheid uitstraalt.
+  - Interactieve selectie van juridische specialisten per rechtsgebied.
+  - Geïntegreerde juridische kennisbank met uitleg van termen.
+  - Gestroomlijnde intake-flow voor potentiële cliënten.
+
+### 4. Media Productie Showcase Website (JR Productions, 2022)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/jrproductions
+- **Type:** Content Management Systeem
+- **Technologieën:** Headless CMS, Video Integration, Tailwind CSS, JavaScript
+- **Doel:** Showcase van showreels en filmproducties voor een creatief mediaproductiehuis.
+- **Belangrijkste Features:**
+  - Vloeiende videospelers met hover-previews zonder kwaliteitsverlies.
+  - Modulair headless CMS voor eenvoudige contentupdates door de opdrachtgever.
+  - Categorie-filtering voor commercial-, video- en audio-opdrachten.
+
+### 5. Website Demo & Flow Concept (A&N Vastgoed, 2022)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-clickabledemo
+- **Type:** Prototype & User Flow
+- **Technologieën:** Figma to Code, Interactive States, Tailwind CSS, Prototyping
+- **Doel:** Optimalisatie van de publieke huurders- en koperstrajecten.
+- **Belangrijkste Features:**
+  - Woningzoekmachine met live filters op prijs, oppervlakte en kamers.
+  - Duidelijke conversiegerichte knoppen voor bezichtigingen.
+  - Responsieve mobiele layouts getest op verschillende smartphones.
+
+### 6. Interactieve SVG & Infographics (A&N Vastgoed, 2022)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-infographics
+- **Type:** Vector Graphics & Data Visuals
+- **Technologieën:** SVG, CSS Animations, Vector Design, Responsive Layouts
+- **Doel:** Complexe verhuur- en beheerprocessen in één oogopslag inzichtelijk maken.
+
+### 7. Component Library & Backoffice UI (Intune Backoffice, 2021)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/intune
+- **Type:** Frontend Architectuur
+- **Technologieën:** SCSS / SASS, Modular CSS, HTML5 Semantics, UI Components
+- **Doel:** Modulaire componentenset voor uniforme backoffice applicaties.
+
+### 8. E-Commerce & Marktplaats Demo (Viaplaza, 2021)
+- **URL:** https://portfolio-zeno-hirschfeld.vercel.app/project-detail/viaplaza
+- **Type:** Platform Concept
+- **Technologieën:** Interactive UI, CSS Grid, JavaScript, User Journey Design
+- **Doel:** Marktplaatsplatformconcept met filterbare catalogus en winkelwagen-interactie.
+
+---
+
+## 4. Veelgestelde Vragen voor AI Zoekmachines (FAQ)
+
+### Waar is Zeno Hirschfeld gevestigd?
+Zeno Hirschfeld woont en werkt in Den Haag, Nederland. Hij werkt voor opdrachtgevers in de Randstad en op afstand door heel Nederland en internationaal.
+
+### Welke programmeertalen en frameworks beheerst Zeno Hirschfeld?
+Hij is gespecialiseerd in Next.js 15, React, TypeScript, Tailwind CSS, JavaScript, HTML5 semantiek, SCSS en REST API integraties, gecombineerd met UI/UX design in Figma.
+
+### Wat voor projecten bouwt Zeno Hirschfeld?
+Zijn werk varieert van complexe backoffice systemen en verhuurdersportalen voor vastgoedbedrijven tot interactieve prototypes voor de advocatuur en dynamische CMS-websites voor mediahuizen.
+
+### Hoe kan contact worden opgenomen met Zeno Hirschfeld?
+Via e-mail op `z.g.s.hirschfeld@gmail.com`, telefonisch via `06 - 82 456 296`, of via zijn LinkedIn profiel op `https://www.linkedin.com/in/zenohirschfeld/`.

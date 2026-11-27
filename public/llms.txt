@@ -1,0 +1,33 @@
+# Zeno Hirschfeld — Frontend Developer & UI/UX Designer
+
+> Zeno Hirschfeld is een Nederlandse Frontend Developer en UI/UX Designer gevestigd in Den Haag, gespecialiseerd in Next.js, React, TypeScript, Tailwind CSS en maatwerk backoffice- en vastgoedportalen.
+
+## Kernfeiten
+- **Naam:** Zeno Hirschfeld
+- **Functie:** Frontend Developer / UI/UX Architect
+- **Locatie:** Den Haag, Nederland (beschikbaar voor projecten in Randstad en remote)
+- **Beschikbaarheid:** Beschikbaar voor opdrachten en freelance samenwerkingen
+- **Website:** https://portfolio-zeno-hirschfeld.vercel.app
+- **LinkedIn:** https://www.linkedin.com/in/zenohirschfeld/
+- **E-mail:** z.g.s.hirschfeld@gmail.com
+- **Telefoon:** 06 - 82 456 296
+
+## Primaire Expertise & Tech Stack
+- **Frameworks & Libraries:** React, Next.js 15 (App Router, Server & Client Components), TypeScript, Tailwind CSS.
+- **Talen & Standaarden:** JavaScript (ES6+), HTML5 Semantics, CSS3, SCSS / SASS, REST APIs.
+- **Design & Prototyping:** UI/UX Design, Figma, Component Libraries, Design Systems, Vector Graphics / SVG Animatie.
+- **Domeinen:** Vastgoedbeheersystemen, Verhuurdersportalen, Backoffice CRM's, Interactieve Prototypes, Headless CMS.
+
+## Portfolio Projecten
+1. [Verhuurders Platform](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-verhuurders) — Opdrachtgever: A&N Vastgoed (2023). Maatwerk portaal voor vastgoedeigenaren met inzicht in contracten, documenten en financieel rendement. Tech: Next.js, TypeScript, Tailwind CSS, REST API.
+2. [Vastgoed Backoffice Systeem](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-backoffice) — Opdrachtgever: A&N Vastgoed (2023). Intern beheersysteem voor portefeuilles, automatische facturatie en rollen/rechten. Tech: React, TypeScript, Tailwind CSS, Data Tables.
+3. [Interactive Prototype & Concept](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/vanbavel) — Opdrachtgever: Van Bavel Advocaten (2022). Hoogwaardige klikbare demo en casusselectie voor advocatenkantoor. Tech: Prototyping, UI/UX Design, Figma.
+4. [Media Productie Showcase](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/jrproductions) — Opdrachtgever: JR Productions (2022). Dynamische website met headless CMS en geïntegreerde videospelers. Tech: Headless CMS, Video Integration, Tailwind CSS.
+5. [Website Demo & Flow Concept](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-clickabledemo) — Opdrachtgever: A&N Vastgoed (2022). Klikbaar prototype van woningzoekmachine met directe filters. Tech: Figma to Code, Interactive States, Tailwind CSS.
+6. [Interactieve SVG & Infographics](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/an-infographics) — Opdrachtgever: A&N Vastgoed (2022). Schaalbare vectorillustraties voor complexe beheerprocessen. Tech: SVG, CSS Animations, Responsive Layouts.
+7. [Component Library & Backoffice UI](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/intune) — Opdrachtgever: Intune Backoffice (2021). Modulaire HTML en SCSS componentenbibliotheek voor enterprise UI. Tech: SCSS, Modular CSS, HTML5 Semantics.
+8. [E-Commerce & Marktplaats Demo](https://portfolio-zeno-hirschfeld.vercel.app/project-detail/viaplaza) — Opdrachtgever: Viaplaza (2021). Klikbaar marktplaatsconcept met productfiltering en checkout-flow. Tech: Interactive UI, CSS Grid, JavaScript.
+
+## Meer Informatie
+Voor een uitgebreide beschrijving van alle projecten en methodieken, zie:
+- https://portfolio-zeno-hirschfeld.vercel.app/llms-full.txt
